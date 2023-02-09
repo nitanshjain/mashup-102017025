@@ -129,7 +129,7 @@ if st.button("Submit"):
         message.attach(part)
         with open(myzip,'rb') as file:
         # Attach the file with filename to the email
-            message.attach(MIMEApplication(file.read(), Name=SAVE_PATH + "/" + output_file + ".zip"))
+            message.attach(MIMEApplication(file, Name=SAVE_PATH + "/" + output_file + ".zip"))
             
         # # Open PDF file in bynary
         # with open(myzip, "rb") as attachment:
