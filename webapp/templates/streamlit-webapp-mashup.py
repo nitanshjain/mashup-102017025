@@ -79,7 +79,6 @@ def mashup(name, num_videos, cut_duration):
         SAVE_PATH + "/" + wav for wav in os.listdir(SAVE_PATH) if wav.endswith(".wav")
     ]
     final_clip = concatenate_audioclips([AudioFileClip(wav) for wav in wavs])
-    print("Done merging wavs to " + final_wav_path)
     
     return final_clip
 
