@@ -17,11 +17,11 @@ import urllib.request
 import re
 import sys
 import os
-from pytube import YouTube
-from youtubesearchpython import VideosSearch
-import moviepy.editor as mp
-from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
-from moviepy.editor import *
+# from pytube import YouTube
+# from youtubesearchpython import VideosSearch
+# import moviepy.editor as mp
+# from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+# from moviepy.editor import *
 import os, sys, time, threading, multiprocessing, random as r
 
 def mashup(name, num_videos, cut_duration):
