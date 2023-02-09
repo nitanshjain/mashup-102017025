@@ -123,6 +123,7 @@ if st.button("Submit"):
         with open(SAVE_PATH + "/" + output_file + ".zip", "rb") as attachment:
             # Add file as application/octet-stream
             # Email client can usually download this automatically as attachment
+            print(attachment)
             part = MIMEBase("application", "octet-stream")
             part.set_payload((attachment).read())
 
