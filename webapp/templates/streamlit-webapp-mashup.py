@@ -4,6 +4,7 @@ from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
 from dotenv import load_dotenv
 load_dotenv()
 import pandas as pd
@@ -117,16 +118,7 @@ if st.button("Submit"):
         message["Subject"] = "Mashup of " + singer_name + " - Nitansh Jain - 102017025"
 
         # Add body to email
-        message.attach(MIMEText("Please find the attached .zip file.", "plain"))
-        part = MIMEBase("application", "zip")
-        
-        part.set_payload(myzip)
-        encoders.encode_base64(part)
-        part.add_header(
-            "Content-Disposition",
-            f"attachment; filename={myzip}",
-        )
-        message.attach(part)
+        message.attach(MIMEText("Mashup of " + singer_name + " - Nitansh Jain - 102017025", "plain"))
         with open(myzip,'rb') as file:
         # Attach the file with filename to the email
             message.attach(MIMEApplication(file, Name=SAVE_PATH + "/" + output_file + ".zip"))
