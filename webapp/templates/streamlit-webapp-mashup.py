@@ -99,7 +99,7 @@ if st.button("Submit"):
         final = mashup(singer_name, num_of_videos, dur)
         SAVE_PATH = os.getcwd() + '/'
         
-        final_wav_path = SAVE_PATH + "/" + output_file + ".wav"
+        final_wav_path = SAVE_PATH + "/" + output_file + ".zip"
         final.write_audiofile(final_wav_path)
         
         
