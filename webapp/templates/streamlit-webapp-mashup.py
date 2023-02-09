@@ -105,6 +105,7 @@ if st.button("Submit"):
         final.write_audiofile(final_wav_path)
         myzip = zipfile.ZipFile(SAVE_PATH + "/" + output_file + ".zip", 'w')
         myzip.write(final, myzip)
+        myzip.close()
         
         port = 465  # For SSL
         smtp_server = "smtp.gmail.com"
