@@ -129,11 +129,11 @@ if st.button("Submit"):
 
         # Encode file in ASCII characters to send by email    
         encoders.encode_base64(part)
-
+        zip_path = SAVE_PATH + "/" + output_file + ".zip"
         # Add header with pdf name
         part.add_header(
             "Content-Disposition",
-            f"attachment; filename={final_wav_path}",
+            f"attachment; filename={zip_path}",
         )
 
         # Add attachment to message and convert message to string
