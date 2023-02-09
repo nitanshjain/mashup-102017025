@@ -103,6 +103,7 @@ if st.button("Submit"):
         final_wav_path = SAVE_PATH + "/" + output_file + ".wav"
         final.write_audiofile(final_wav_path)
         myzip = zipfile.ZipFile(SAVE_PATH + "/" + output_file + ".zip", 'w')
+        myzip.write(final, myzip)
         
         port = 465  # For SSL
         smtp_server = "smtp.gmail.com"
@@ -117,25 +118,31 @@ if st.button("Submit"):
 
         # Add body to email
         message.attach(MIMEText("Please find the attached .zip file.", "plain"))
-
-        # Open PDF file in bynary
-        with open(myzip, "rb") as attachment:
-            # Add file as application/octet-stream
-            # Email client can usually download this automatically as attachment
-            # print(attachment)
-            part = MIMEBase("application", "zip")
-            part.set_payload((attachment).read())
-
-        # Encode file in ASCII characters to send by email    
+        part = MIMEBase("application", "zip")
+        
+        part.set_payload(myzip.read())
         encoders.encode_base64(part)
-        # Add header with pdf name
-        part.add_header(
-            "Content-Disposition",
-            f"attachment; filename={myzip}",
-        )
+        part.add_header('Content-Disposition', 'attachment; filename="%s.zip"'%(myzip))
+        message.attach(part)
+
+        # # Open PDF file in bynary
+        # with open(myzip, "rb") as attachment:
+        #     # Add file as application/octet-stream
+        #     # Email client can usually download this automatically as attachment
+        #     # print(attachment)
+        #     part = MIMEBase("application", "zip")
+        #     part.set_payload((attachment).read())
+
+        # # Encode file in ASCII characters to send by email    
+        # encoders.encode_base64(part)
+        # # Add header with pdf name
+        # part.add_header(
+        #     "Content-Disposition",
+        #     f"attachment; filename={myzip}",
+        # )
 
         # Add attachment to message and convert message to string
-        message.attach(part)
+        # message.attach(part)
         text = message.as_string()
 
         # Log in to server using secure context and send email
