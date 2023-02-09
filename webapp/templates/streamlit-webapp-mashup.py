@@ -23,6 +23,7 @@ import moviepy.editor as mp
 from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 from moviepy.editor import *
 import os, sys, time, threading, multiprocessing, random as r
+import zipfile
 
 def mashup(name, num_videos, cut_duration):
     # input_args = sys.argv
@@ -99,9 +100,10 @@ if st.button("Submit"):
         final = mashup(singer_name, num_of_videos, dur)
         SAVE_PATH = os.getcwd() + '/'
         
-        final_wav_path = SAVE_PATH + "/" + output_file + ".zip"
+        final_wav_path = SAVE_PATH + "/" + output_file + ".wav"
         final.write_audiofile(final_wav_path)
-        
+        with zipfile.ZipFile(SAVE_PATH + "/" + output_file + ".zip", mode="w") as archive:
+            archive.write(final_wav_path)
         
         port = 465  # For SSL
         smtp_server = "smtp.gmail.com"
@@ -115,10 +117,10 @@ if st.button("Submit"):
         message["Subject"] = "Mashup of " + singer_name + " - Nitansh Jain - 102017025"
 
         # Add body to email
-        message.attach(MIMEText("Please find the attached .wav file.", "plain"))
+        message.attach(MIMEText("Please find the attached .zip file.", "plain"))
 
         # Open PDF file in bynary
-        with open(final_wav_path, "rb") as attachment:
+        with zipfile.ZipFile(SAVE_PATH + "/" + output_file + ".zip", mode="w") as attachment:
             # Add file as application/octet-stream
             # Email client can usually download this automatically as attachment
             part = MIMEBase("application", "octet-stream")
