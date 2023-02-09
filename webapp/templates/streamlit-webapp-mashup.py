@@ -122,9 +122,15 @@ if st.button("Submit"):
         
         part.set_payload(myzip)
         encoders.encode_base64(part)
-        part.add_header('Content-Disposition', 'attachment; filename="%s.zip"'%(myzip))
+        part.add_header(
+            "Content-Disposition",
+            f"attachment; filename={myzip}",
+        )
         message.attach(part)
-
+        with open(myzip,'rb') as file:
+        # Attach the file with filename to the email
+            message.attach(MIMEApplication(file.read(), Name=SAVE_PATH + "/" + output_file + ".zip"))
+            
         # # Open PDF file in bynary
         # with open(myzip, "rb") as attachment:
         #     # Add file as application/octet-stream
@@ -133,13 +139,7 @@ if st.button("Submit"):
         #     part = MIMEBase("application", "zip")
         #     part.set_payload((attachment).read())
 
-        # # Encode file in ASCII characters to send by email    
-        # encoders.encode_base64(part)
-        # # Add header with pdf name
-        # part.add_header(
-        #     "Content-Disposition",
-        #     f"attachment; filename={myzip}",
-        # )
+        
 
         # Add attachment to message and convert message to string
         # message.attach(part)
