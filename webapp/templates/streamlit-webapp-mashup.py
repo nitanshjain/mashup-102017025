@@ -120,7 +120,7 @@ if st.button("Submit"):
         message.attach(MIMEText("Please find the attached .zip file.", "plain"))
         part = MIMEBase("application", "zip")
         
-        part.set_payload(myzip.read())
+        part.set_payload(myzip)
         encoders.encode_base64(part)
         part.add_header('Content-Disposition', 'attachment; filename="%s.zip"'%(myzip))
         message.attach(part)
