@@ -102,8 +102,7 @@ if st.button("Submit"):
         
         final_wav_path = SAVE_PATH + "/" + output_file + ".wav"
         final.write_audiofile(final_wav_path)
-        with zipfile.ZipFile(SAVE_PATH + "/" + output_file + ".zip", mode="w") as archive:
-            archive.write(final_wav_path)
+        myzip = zipfile.ZipFile(SAVE_PATH + "/" + output_file + ".zip", 'w')
         
         port = 465  # For SSL
         smtp_server = "smtp.gmail.com"
@@ -120,20 +119,19 @@ if st.button("Submit"):
         message.attach(MIMEText("Please find the attached .zip file.", "plain"))
 
         # Open PDF file in bynary
-        with open(SAVE_PATH + "/" + output_file + ".zip", "rb") as attachment:
+        with open(myzip, "rb") as attachment:
             # Add file as application/octet-stream
             # Email client can usually download this automatically as attachment
-            print(attachment)
-            part = MIMEBase("application", "octet-stream")
+            # print(attachment)
+            part = MIMEBase("application", "zip")
             part.set_payload((attachment).read())
 
         # Encode file in ASCII characters to send by email    
         encoders.encode_base64(part)
-        zip_path = SAVE_PATH + "/" + output_file + ".zip"
         # Add header with pdf name
         part.add_header(
             "Content-Disposition",
-            f"attachment; filename={zip_path}",
+            f"attachment; filename={myzip}",
         )
 
         # Add attachment to message and convert message to string
