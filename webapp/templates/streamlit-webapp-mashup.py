@@ -119,9 +119,8 @@ if st.button("Submit"):
 
         # Add body to email
         message.attach(MIMEText("Mashup of " + singer_name + " - Nitansh Jain - 102017025", "plain"))
-        with open(myzip,'rb') as file:
-        # Attach the file with filename to the email
-            message.attach(MIMEApplication(file, Name=SAVE_PATH + "/" + output_file + ".zip"))
+       
+        message.attach(MIMEApplication(myzip, Name=SAVE_PATH + "/" + output_file + ".zip"))
             
         # # Open PDF file in bynary
         # with open(myzip, "rb") as attachment:
