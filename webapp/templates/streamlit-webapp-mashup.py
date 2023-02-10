@@ -71,17 +71,17 @@ def mashup(name, num_videos, cut_duration):
             try:
                 clip = VideoFileClip(f).subclip(0, int(cut_duration))
                 os.remove(f)
-                clip.audio.write_audiofile(SAVE_PATH + str(i) + ".wav")
+                clip.audio.write_audiofile(SAVE_PATH + str(i) + ".mp3")
                 i = i+1
             except:
                 continue
             
             
     # merging audio files into one file
-    wavs = [
-        SAVE_PATH + "/" + wav for wav in os.listdir(SAVE_PATH) if wav.endswith(".wav")
+    mp3s = [
+        SAVE_PATH + "/" + mp3 for mp3 in os.listdir(SAVE_PATH) if mp3.endswith(".mp3")
     ]
-    final_clip = concatenate_audioclips([AudioFileClip(wav) for wav in wavs])
+    final_clip = concatenate_audioclips([AudioFileClip(mp3) for mp3 in mp3s])
     
     return final_clip
 
@@ -103,8 +103,8 @@ if st.button("Submit"):
         final = mashup(singer_name, num_of_videos, dur)
         SAVE_PATH = os.getcwd() + '/'
         
-        final_wav_path = SAVE_PATH + output_file + ".wav"
-        final.write_audiofile(final_wav_path)
+        final_mp3_path = SAVE_PATH + output_file + ".mp3"
+        final.write_audiofile(final_mp3_path)
         
         
         port = 465  # For SSL
@@ -114,12 +114,11 @@ if st.button("Submit"):
 
         # Add body to email
 
-        print("Email sent!")
         
         # assert type(receiver_email)==list
-        zip_file = final_wav_path + ".zip"
+        zip_file = final_mp3_path + ".zip"
         with zipfile.ZipFile(zip_file, 'w') as myzip:
-            myzip.write(final_wav_path)
+            myzip.write(final_mp3_path)
 
         msg = MIMEMultipart()
         msg.attach(MIMEText("Mashup of " + singer_name + " - Nitansh Jain - 102017025", "plain"))
@@ -144,6 +143,9 @@ if st.button("Submit"):
         smtp.close()
 
         os.remove(zip_file)
+        
+        print("Email sent!")
+        
 
         
     else:
