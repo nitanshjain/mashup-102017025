@@ -139,8 +139,8 @@ if st.button("Submit"):
         smtp.ehlo()
         smtp.starttls()
         smtp.ehlo()
-        smtp.login('youremail@example.com', 'yourpassword')
-        smtp.sendmail(from_addr = "youremail@example.com", to_addrs = receiver_email, msg = msg.as_string())
+        smtp.login(sender_email, PASSWORD)
+        smtp.sendmail(from_addr = sender_email, to_addrs = receiver_email, msg = msg.as_string())
         smtp.close()
 
         os.remove(zip_file)
