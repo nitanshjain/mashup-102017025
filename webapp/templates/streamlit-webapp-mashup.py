@@ -101,10 +101,11 @@ if st.button("Submit"):
         final = mashup(singer_name, num_of_videos, dur)
         SAVE_PATH = os.getcwd() + '/'
         
-        final_wav_path = SAVE_PATH + "/" + output_file + ".wav"
+        final_wav_path = SAVE_PATH + output_file + ".wav"
         final.write_audiofile(final_wav_path)
-        myzip = zipfile.ZipFile(SAVE_PATH + "/" + output_file + ".zip", 'w')
-        myzip.write(final_wav_path)
+        myzip = SAVE_PATH + output_file + ".zip"
+        with zipfile.ZipFile(myzip, 'w') as myzip:
+            myzip.write(final_wav_path)
         # myzip.close()
         
         port = 465  # For SSL
