@@ -5,6 +5,7 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
+from email.utils import COMMASPACE, formatdate
 from dotenv import load_dotenv
 load_dotenv()
 import pandas as pd
@@ -103,48 +104,45 @@ if st.button("Submit"):
         
         final_wav_path = SAVE_PATH + output_file + ".wav"
         final.write_audiofile(final_wav_path)
-        myzip = SAVE_PATH + output_file + ".zip"
-        with zipfile.ZipFile(myzip, 'w') as myzip:
-            myzip.write(final_wav_path)
-        # myzip.close()
+        
         
         port = 465  # For SSL
         smtp_server = "smtp.gmail.com"
         sender_email = "njain_be20@thapar.edu"  # Enter your address
         receiver_email = email_id  # Enter receiver address
 
-        # Create a multipart message and set headers
-        message = MIMEMultipart()
-        message["From"] = sender_email
-        message["To"] = receiver_email
-        message["Subject"] = "Mashup of " + singer_name + " - Nitansh Jain - 102017025"
-
         # Add body to email
-        message.attach(MIMEText("Mashup of " + singer_name + " - Nitansh Jain - 102017025", "plain"))
-       
-        message.attach(MIMEApplication(myzip, Name=SAVE_PATH + "/" + output_file + ".zip"))
-            
-        # # Open PDF file in bynary
-        # with open(myzip, "rb") as attachment:
-        #     # Add file as application/octet-stream
-        #     # Email client can usually download this automatically as attachment
-        #     # print(attachment)
-        #     part = MIMEBase("application", "zip")
-        #     part.set_payload((attachment).read())
-
-        
-
-        # Add attachment to message and convert message to string
-        # message.attach(part)
-        text = message.as_string()
-
-        # Log in to server using secure context and send email
-        context = ssl.create_default_context()
-        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-            server.login(sender_email, PASSWORD)
-            server.sendmail(sender_email, receiver_email, text)
 
         print("Email sent!")
+        
+        assert type(receiver_email)==list
+        zip_file = final_wav_path + ".zip"
+        with zipfile.ZipFile(zip_file, 'w') as myzip:
+            myzip.write(final_wav_path)
+
+        msg = MIMEMultipart()
+        msg.attach(MIMEText("Mashup of " + singer_name + " - Nitansh Jain - 102017025", "plain"))
+        
+        msg["From"] = sender_email
+        msg["To"] = receiver_email
+        msg["Subject"] = "Mashup of " + singer_name + " - Nitansh Jain - 102017025"
+
+
+        part = MIMEBase('application', "octet-stream")
+        part.set_payload( open(zip_file,"rb").read() )
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', 'attachment; filename="{0}"'.format(os.path.basename(zip_file)))
+        msg.attach(part)
+
+        smtp = smtplib.SMTP('smtp.gmail.com', 587)
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.ehlo()
+        smtp.login('youremail@example.com', 'yourpassword')
+        smtp.sendmail(from_addr = "youremail@example.com", to_addrs = receiver_email, msg = msg.as_string())
+        smtp.close()
+
+        os.remove(zip_file)
 
         
     else:
