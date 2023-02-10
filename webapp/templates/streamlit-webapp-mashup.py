@@ -104,7 +104,7 @@ if st.button("Submit"):
         final_wav_path = SAVE_PATH + "/" + output_file + ".wav"
         final.write_audiofile(final_wav_path)
         myzip = zipfile.ZipFile(SAVE_PATH + "/" + output_file + ".zip", 'w')
-        # myzip.write(final_wav_path, myzip)
+        myzip.write(final_wav_path)
         # myzip.close()
         
         port = 465  # For SSL
