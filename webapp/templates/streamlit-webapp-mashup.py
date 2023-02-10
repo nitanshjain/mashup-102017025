@@ -92,7 +92,7 @@ st.set_page_config(page_title="Mashup - Nitansh Jain - 102017025", page_icon=":g
 singer_name = st.text_input("Singer Name")
 num_of_videos = st.text_input("Number of videos")
 dur = st.text_input("Duration of each video")
-output_file = st.text_input("Output file name")
+# output_file = st.text_input("Output file name")
 email_id = st.text_input("Email ID", key='email')
 
 if st.button("Submit"):
@@ -103,7 +103,7 @@ if st.button("Submit"):
         final = mashup(singer_name, num_of_videos, dur)
         SAVE_PATH = os.getcwd() + '/'
         
-        final_mp3_path = SAVE_PATH + output_file + ".mp3"
+        final_mp3_path = SAVE_PATH + "102017025-output.mp3"
         final.write_audiofile(final_mp3_path)
         
         
