@@ -96,6 +96,7 @@ output_file = st.text_input("Output file name")
 email_id = st.text_input("Email ID", key='email')
 
 if st.button("Submit"):
+    
     if singer_name and num_of_videos and dur and email:
         st.success("Form submitted successfully!")
 
@@ -115,7 +116,7 @@ if st.button("Submit"):
 
         print("Email sent!")
         
-        assert type(receiver_email)==list
+        # assert type(receiver_email)==list
         zip_file = final_wav_path + ".zip"
         with zipfile.ZipFile(zip_file, 'w') as myzip:
             myzip.write(final_wav_path)
